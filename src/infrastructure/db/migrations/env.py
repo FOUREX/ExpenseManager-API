@@ -5,6 +5,8 @@ from sqlalchemy import pool
 
 from alembic import context
 
+import src.infrastructure.db.models.expense  # noqa
+
 from src.infrastructure.db.models.base import Base
 from src.infrastructure.config import DBConfig
 
