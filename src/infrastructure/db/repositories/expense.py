@@ -17,7 +17,7 @@ class ExpenseRepoImpl(BaseRepo[ExpenseORM, ExpenseMapper], ExpenseRepo):
     async def insert_one(self, expense: CreateExpenseDTO) -> ExpenseDTO:
         stmt = (
             insert(self.model)
-            .values(self.mapper.to_dict(expense))
+            .values(self.mapper.to_dict_exclude_none(expense))
             .returning(self.model)
         )
 
@@ -28,7 +28,7 @@ class ExpenseRepoImpl(BaseRepo[ExpenseORM, ExpenseMapper], ExpenseRepo):
     async def update_one(self, id: int, expense: EditExpenseDTO) -> ExpenseDTO:
         stmt = (
             update(self.model)
-            .values(self.mapper.to_dict(expense))
+            .values(self.mapper.to_dict_exclude_none(expense))
             .where(self.model.id == id)
             .returning(self.model)
         )

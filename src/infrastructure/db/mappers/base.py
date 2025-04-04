@@ -29,3 +29,7 @@ class BaseMapper[ModelType: Base, SchemaType: DTO](Protocol):
     @classmethod
     def to_dict_exclude_unset(cls, data: DTO) -> dict:
         return data.model_dump(exclude_unset=True)
+
+    @classmethod
+    def to_dict_exclude_none(cls, data: DTO) -> dict:
+        return data.model_dump(exclude_none=True)
