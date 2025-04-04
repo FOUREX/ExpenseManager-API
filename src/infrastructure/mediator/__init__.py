@@ -3,7 +3,7 @@ from didiator.middlewares.di import DiMiddleware, DiScopes
 from didiator.interface.utils.di_builder import DiBuilder
 
 from src.infrastructure.di.constants import DiScope
-from src.infrastructure.mediator.handlers.test import setup_test_handlers
+from src.infrastructure.mediator.handlers.expense import setup_expense_handlers
 
 
 def get_mediator() -> Mediator:
@@ -25,4 +25,4 @@ def init_mediator(di_builder: DiBuilder) -> Mediator:
 
 
 def setup_mediator(mediator: Mediator):
-    setup_test_handlers(mediator)
+    setup_expense_handlers(mediator)
