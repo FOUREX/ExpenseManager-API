@@ -27,6 +27,8 @@ async def init_app(app: FastAPI):
 def init_api() -> FastAPI:
     app = FastAPI(
         title="Менеджер витрат",
+        description="Created by <a href='https://t.me/Serhii_Zherevchuk' target='blank'>Serhii Zherevchuk</a> "
+                    "for <a href='https://www.mustage.team' target='blank'>Mustage Team</a>",
         lifespan=init_app
     )
 

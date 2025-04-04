@@ -2,7 +2,7 @@ from typing import Iterable
 
 from fastapi import FastAPI, APIRouter
 
-from src.presentation.api.controllers.test import routers as test_routers
+from src.presentation.api.controllers.expense import routers as expense_routers
 
 
 def _include_routers(app: FastAPI, routers: Iterable[APIRouter]):
@@ -11,4 +11,4 @@ def _include_routers(app: FastAPI, routers: Iterable[APIRouter]):
 
 
 def setup_routers(app: FastAPI):
-    _include_routers(app, test_routers)
+    _include_routers(app, expense_routers)
