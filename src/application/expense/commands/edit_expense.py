@@ -9,18 +9,18 @@ from src.application.expense.interfaces import ExpenseRepo
 from src.infrastructure.currency_client import CurrencyClient
 
 
-class EditExpense(DTO, Command[ExpenseDTO]):
+class EditExpense(DTO, Command[ExpenseDTO | None]):
     id: int
     data: EditExpenseRequest
 
 
-class EditExpenseHandler(CommandHandler[EditExpense, ExpenseDTO]):
+class EditExpenseHandler(CommandHandler[EditExpense, ExpenseDTO | None]):
     def __init__(self, repo: ExpenseRepo, uow: UnitOfWork, currency_client: CurrencyClient):
         self.repo = repo
         self.uow = uow
         self.currency_client = currency_client
 
-    async def __call__(self, command: EditExpense) -> ExpenseDTO:
+    async def __call__(self, command: EditExpense) -> ExpenseDTO | None:
         currency = await self.currency_client.get_usd_to_uah()
 
         edit_expense = EditExpenseDTO(

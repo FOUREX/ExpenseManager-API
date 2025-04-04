@@ -42,13 +42,13 @@ async def post_expense(
 
 @expense_router.patch(
     "/{id}",
-    description="Редагує статтю за її ID та повертає її з всіма даними. Не обов'язково передавати всі поля"
+    description="Редагує статтю за її ID та повертає її (якщо існує) з всіма даними. Не обов'язково передавати всі поля"
 )
 async def patch_expense(
         mediator: MediatorDep,
         id: Annotated[int, Path()],
         expense: EditExpenseRequest
-) -> ExpenseDTO:
+) -> ExpenseDTO | None:
     return await mediator.send(EditExpense(id=id, data=expense))
 
 

@@ -7,7 +7,7 @@ class ExpenseRepo(Protocol):
     async def insert_one(self, expense: CreateExpenseDTO) -> ExpenseDTO:
         raise NotImplementedError
 
-    async def update_one(self, id: int, expense: EditExpenseDTO) -> ExpenseDTO:
+    async def update_one(self, id: int, expense: EditExpenseDTO) -> ExpenseDTO | None:
         raise NotImplementedError
 
     async def delete_one(self, id: int) -> ExpenseDTO | None:

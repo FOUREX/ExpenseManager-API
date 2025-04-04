@@ -25,7 +25,7 @@ class ExpenseRepoImpl(BaseRepo[ExpenseORM, ExpenseMapper], ExpenseRepo):
 
         return self.mapper.from_orm(result)
 
-    async def update_one(self, id: int, expense: EditExpenseDTO) -> ExpenseDTO:
+    async def update_one(self, id: int, expense: EditExpenseDTO) -> ExpenseDTO | None:
         stmt = (
             update(self.model)
             .values(self.mapper.to_dict_exclude_none(expense))
@@ -35,7 +35,7 @@ class ExpenseRepoImpl(BaseRepo[ExpenseORM, ExpenseMapper], ExpenseRepo):
 
         result = await self.session.scalar(stmt)
 
-        return self.mapper.from_orm(result)
+        return None if result is None else self.mapper.from_orm(result)
 
     async def delete_one(self, id: int) -> ExpenseDTO | None:
         stmt = (
