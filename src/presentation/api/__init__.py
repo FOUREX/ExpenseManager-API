@@ -29,7 +29,8 @@ def init_api() -> FastAPI:
         title="Менеджер витрат",
         description="Created by <a href='https://t.me/Serhii_Zherevchuk' target='blank'>Serhii Zherevchuk</a> "
                     "for <a href='https://www.mustage.team' target='blank'>Mustage Team</a>",
-        lifespan=init_app
+        lifespan=init_app,
+        version="0.0.2"
     )
 
     return app
