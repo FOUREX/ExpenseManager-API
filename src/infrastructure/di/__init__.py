@@ -11,7 +11,12 @@ from src.infrastructure.di.constants import DiScope
 from src.infrastructure.config import DBConfig
 from src.infrastructure.db import build_sa_engine, build_async_session_maker, get_async_session
 from src.infrastructure.db.uow import build_uow
+from src.infrastructure.currency_client import CurrencyClient, CurrencyClientImpl
+
 from src.application.common.interfaces.uow import UnitOfWork
+
+from src.application.expense.interfaces import ExpenseRepo, ExpenseReader
+from src.infrastructure.db.repositories.expense import ExpenseRepoImpl, ExpenseReaderImpl
 
 
 def init_di_builder() -> DiBuilder:
@@ -29,13 +34,14 @@ def init_di_builder() -> DiBuilder:
 
 def setup_di_builder(di_builder: DiBuilder):
     di_builder.bind(bind_by_type(Dependent(lambda *_: di_builder, scope=DiScope.APP), DiBuilder))
+    di_builder.bind(bind_by_type(Dependent(CurrencyClientImpl, scope=DiScope.APP), CurrencyClient))
 
     setup_config_factories(di_builder)
     setup_db_factories(di_builder)
 
 
 def setup_config_factories(di_builder: DiBuilder):
-    di_builder.bind(bind_by_type(Dependent(lambda *_: DBConfig(), scope=DiScope.APP), DBConfig))
+    di_builder.bind(bind_by_type(Dependent(lambda *_: DBConfig(), scope=DiScope.APP), DBConfig))  # noqa
 
 
 def setup_db_factories(di_builder: DiBuilder):
@@ -49,3 +55,6 @@ def setup_db_factories(di_builder: DiBuilder):
     di_builder.bind(bind_by_type(Dependent(get_async_session, scope=DiScope.REQUEST), AsyncSession, covariant=True))
 
     di_builder.bind(bind_by_type(Dependent(build_uow, scope=DiScope.REQUEST), UnitOfWork))
+
+    di_builder.bind(bind_by_type(Dependent(ExpenseRepoImpl, scope=DiScope.REQUEST), ExpenseRepo))
+    di_builder.bind(bind_by_type(Dependent(ExpenseReaderImpl, scope=DiScope.REQUEST), ExpenseReader))
