@@ -25,7 +25,7 @@ poetry env activate
 eval $(poetry env activate)
 ```
 
-### 3. Створити файл `.env` на основі `.env.template` та заповнити необхідні поля
+### 3. Створити файл `.env` в корені проєкту на основі `.env.template` та заповнити необхідні поля
 ```
 DB_HOST=127.0.0.1
 DB_PORT=5432
