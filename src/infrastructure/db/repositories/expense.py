@@ -26,9 +26,14 @@ class ExpenseRepoImpl(BaseRepo[ExpenseORM, ExpenseMapper], ExpenseRepo):
         return self.mapper.from_orm(result)
 
     async def update_one(self, id: int, expense: EditExpenseDTO) -> ExpenseDTO | None:
+        to_update = self.mapper.to_dict_exclude_none(expense)
+
+        if to_update == {}:
+            return None
+
         stmt = (
             update(self.model)
-            .values(self.mapper.to_dict_exclude_none(expense))
+            .values(to_update)
             .where(self.model.id == id)
             .returning(self.model)
         )

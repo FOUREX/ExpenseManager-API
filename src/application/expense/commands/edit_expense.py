@@ -23,10 +23,10 @@ class EditExpenseHandler(CommandHandler[EditExpense, ExpenseDTO | None]):
     async def __call__(self, command: EditExpense) -> ExpenseDTO | None:
         currency = await self.currency_client.get_usd_to_uah()
 
-        edit_expense = EditExpenseDTO(
-            **command.data.model_dump(),
-            amount_usd=(command.data.amount_uah / Decimal(currency)).quantize(Decimal("0.01"))
-        )
+        edit_expense = EditExpenseDTO(**command.data.model_dump())
+
+        if command.data.amount_uah is not None:
+            edit_expense.amount_usd = (command.data.amount_uah / Decimal(currency)).quantize(Decimal("0.01"))
 
         expense = await self.repo.update_one(id=command.id, expense=edit_expense)
         await self.uow.commit()
